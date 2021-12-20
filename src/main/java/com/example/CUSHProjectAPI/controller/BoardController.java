@@ -5,7 +5,6 @@ import com.example.CUSHProjectAPI.dto.BoardDto;
 import com.example.CUSHProjectAPI.service.BoardService;
 import com.example.CUSHProjectAPI.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +21,14 @@ public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
 
-    /*일반 게시판*/
+    /*일반 게시판*//*
     @GetMapping("/board/list")
     public String boardList(Model model) {
         model.addAttribute("categoryList", categoryService.getCategoryList());
         return "board/boardlist";
-    }
+    }*/
 
-    /*일반 게시판 api*/
+    /*일반 게시판 api*//*
     @GetMapping("/api/board/list/table")
     @ResponseBody
     public HashMap<String, Object> getBoardList(@RequestParam(required = false) Long categoryId,
@@ -53,9 +52,9 @@ public class BoardController {
         paginationMap.put("page", page);
         paginationMap.put("totalCount", total);
         return objectMap;
-    }
+    }*/
 
-    //글쓰기
+    /*//글쓰기
     @GetMapping("/board/write")
     public String boardWrite(Model model) {
         BoardDto boardForm = new BoardDto();
@@ -63,13 +62,9 @@ public class BoardController {
         model.addAttribute("boardForm", boardForm);
         model.addAttribute("categoryList", categoryList);
         return "board/boardform";
-    }
+    }*/
 
-    @PostMapping("/board/write")
-    public String boardWrite(@RequestParam(required = false) Long category, BoardDto boardDto, Authentication authentication, HttpServletRequest request) {
-        boardService.boardWrite(boardDto, authentication.getName(), request);
-        return "redirect:/board/list?category=" + category;
-    }
+
 
     @GetMapping("/board/content")
     public String boardContent(Model model, @RequestParam(required = false) Long id) {
@@ -98,11 +93,11 @@ public class BoardController {
         return "board/boardmodify";
     }
 
-    @PostMapping("/board/modify")
+    /*@PostMapping("/board/modify")
     public String boardModify(@RequestParam(required = false) Long id, BoardDto boardDto, Authentication authentication, HttpServletRequest request) {
         boardService.boardModifySave(boardDto, authentication.getName(), request);
         return "redirect:/board/content?id=" + id;
-    }
+    }*/
 
     @GetMapping("/board/map")
     public String showMap() {
@@ -139,7 +134,7 @@ public class BoardController {
         return "account/myOldBoard";
     }
 
-    /*내가 쓴 오래된 게시물 api*/
+   /* *//*내가 쓴 오래된 게시물 api*//*
     @GetMapping("/api/board/myOldBoard/table")
     @ResponseBody
     public HashMap<String, Object> getMyOldBoardList(@RequestParam(required = false) int page,
@@ -160,31 +155,11 @@ public class BoardController {
         paginationMap.put("page", page);
         paginationMap.put("totalCount", total);
         return objectMap;
-    }
+    }*/
 
-    @GetMapping("/api/board/getMyOldBoardList")
-    @ResponseBody
-    public HashMap<String, Object> oldBoardAlertList(Authentication authentication,
-                                                @RequestParam(required = false) int startIndex,
-                                                @RequestParam(required = false) int searchStep) {
-        HashMap<String, Object> map = new HashMap<>();
-        List<BoardDto> boardDtoList = boardService.getMyOldBoardAlertList(authentication.getName(), startIndex, searchStep);
-        map.put("totalCnt", boardService.getMyOldBoardAlertListCnt(authentication.getName()));
-        map.put("data", boardDtoList);
-        return map;
-    }
 
-    @GetMapping("/api/board/getMyOldBoardCnt")
-    @ResponseBody
-    public HashMap<String, Object> getMyOldBoardAlertCnt(Authentication authentication) {
-        HashMap<String, Object> map = new HashMap<>();
 
-        if (authentication != null) {
-            map.put("totalCnt", boardService.getMyOldBoardAlertListCnt(authentication.getName()));
-        } else map.put("totalCnt", 0);
 
-        return map;
-    }
 
     @GetMapping("/api/board/setAlertReading")
     @ResponseBody
@@ -196,7 +171,7 @@ public class BoardController {
         return map;
     }
 
-    /*내가 쓴 게시물 api*/
+    /*내가 쓴 게시물 api*//*
     @GetMapping("/api/board/myBoard/table")
     @ResponseBody
     public HashMap<String, Object> getMyBoardList(@RequestParam(required = false) int page,
@@ -217,7 +192,7 @@ public class BoardController {
         paginationMap.put("page", page);
         paginationMap.put("totalCount", total);
         return objectMap;
-    }
+    }*/
 
 
 

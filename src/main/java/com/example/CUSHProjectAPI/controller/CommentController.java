@@ -2,7 +2,6 @@ package com.example.CUSHProjectAPI.controller;
 
 import com.example.CUSHProjectAPI.service.CommentService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @ResponseBody
+   /* @ResponseBody
     @PostMapping("/api/comment/post")
     public HashMap<String, Object> commentPost(@RequestParam Long bid,
                               @RequestParam String comment,
@@ -24,7 +23,7 @@ public class CommentController {
         Long cGroup = 0L;
 
         return commentService.commentPost(bid, comment, cDepth, cGroup, authentication.getName());
-    }
+    }*/
 
     @ResponseBody
     @GetMapping("/api/comment/list")
@@ -55,7 +54,7 @@ public class CommentController {
         return map;
     }
 
-    @ResponseBody
+   /* @ResponseBody
     @PostMapping("/api/comment/reComment/post")
     public String reCommentPost(@RequestParam Long bid,
                                 @RequestParam String comment,
@@ -64,5 +63,5 @@ public class CommentController {
 
         commentService.commentPost(bid, comment, cDepth, cid, authentication.getName());
         return "success";
-    }
+    }*/
 }

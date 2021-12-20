@@ -1,5 +1,6 @@
 package com.example.CUSHProjectAPI.repository;
 
+import com.example.CUSHProjectAPI.dto.NoticeBoardListDto;
 import com.example.CUSHProjectAPI.entity.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -32,13 +33,13 @@ public class NoticeBoardQueryRepository {
     }
 
     /*한페이지 출력 리스트*/
-    public List<NoticeBoardEntity> getNoticeList(int page, int perPage, String searchType, String keyword){
-        int start = (page * perPage) - perPage;
+    public List<NoticeBoardEntity> getNoticeList(NoticeBoardListDto noticeBoardListDto){
+        int start = (noticeBoardListDto.getPage() * noticeBoardListDto.getPerPage()) - noticeBoardListDto.getPerPage();
         return queryFactory.selectFrom(QNoticeBoardEntity.noticeBoardEntity)
-                .where(eqSearchType(searchType,keyword))
+                .where(eqSearchType(noticeBoardListDto.getSearchType(), noticeBoardListDto.getKeyword()))
                 .orderBy(QNoticeBoardEntity.noticeBoardEntity.id.desc())
                 .offset(start)
-                .limit(perPage)
+                .limit(noticeBoardListDto.getPerPage())
                 .fetch();
     }
 

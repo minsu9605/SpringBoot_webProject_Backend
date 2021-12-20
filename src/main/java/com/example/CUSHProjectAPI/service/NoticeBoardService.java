@@ -1,6 +1,7 @@
 package com.example.CUSHProjectAPI.service;
 
 import com.example.CUSHProjectAPI.dto.NoticeBoardDto;
+import com.example.CUSHProjectAPI.dto.NoticeBoardListDto;
 import com.example.CUSHProjectAPI.entity.MemberEntity;
 import com.example.CUSHProjectAPI.entity.NoticeBoardEntity;
 import com.example.CUSHProjectAPI.repository.MemberRepository;
@@ -24,8 +25,8 @@ public class NoticeBoardService {
     private final MemberRepository memberRepository;
     private final NoticeBoardQueryRepository noticeBoardQueryRepository;
 
-    public List<NoticeBoardDto> getNoticeBoardList(int page, int perPage, String searchType, String keyword) {
-        List<NoticeBoardEntity> noticeBoardEntityList = noticeBoardQueryRepository.getNoticeList(page, perPage, searchType, keyword);
+    public List<NoticeBoardDto> getNoticeBoardList(NoticeBoardListDto noticeBoardListDto) {
+        List<NoticeBoardEntity> noticeBoardEntityList = noticeBoardQueryRepository.getNoticeList(noticeBoardListDto);
         List<NoticeBoardDto> noticeBoardDtoList = new ArrayList<>();
 
         for (NoticeBoardEntity noticeBoardEntity : noticeBoardEntityList) {

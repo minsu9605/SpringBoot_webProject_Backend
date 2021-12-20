@@ -1,6 +1,7 @@
 package com.example.CUSHProjectAPI.service;
 
 import com.example.CUSHProjectAPI.dto.BoardDto;
+import com.example.CUSHProjectAPI.dto.BoardListDto;
 import com.example.CUSHProjectAPI.entity.BoardCategoryEntity;
 import com.example.CUSHProjectAPI.entity.BoardEntity;
 import com.example.CUSHProjectAPI.entity.MemberEntity;
@@ -31,9 +32,9 @@ public class BoardService {
 
 
     /*한페이지 출력 리스트*/
-    public List<BoardDto> getBoardList(Long categoryId, int page, int perPage, String searchType, String keyword) {
-        BoardCategoryEntity boardCategoryEntity = boardCategoryRepository.findById(categoryId).orElse(null);
-        List<BoardEntity> boardEntityList = boardQueryRepository.getBoardList(boardCategoryEntity, page, perPage, searchType, keyword);
+    public List<BoardDto> getBoardList(BoardListDto boardListDto) {
+        BoardCategoryEntity boardCategoryEntity = boardCategoryRepository.findById(boardListDto.getCategoryId()).orElse(null);
+        List<BoardEntity> boardEntityList = boardQueryRepository.getBoardList(boardCategoryEntity, boardListDto.getPage(),boardListDto.getPerPage(),boardListDto.getSearchType(),boardListDto.getKeyword());
         List<BoardDto> boardDtoList = new ArrayList<>();
 
         for (BoardEntity boardEntity : boardEntityList) {
@@ -82,7 +83,6 @@ public class BoardService {
         }
         return boardDtoList;
     }
-
 
 
     /*페이징 하면서 조회*/

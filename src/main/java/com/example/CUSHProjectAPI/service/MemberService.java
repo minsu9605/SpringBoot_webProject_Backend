@@ -7,14 +7,6 @@ import com.example.CUSHProjectAPI.entity.MemberEntity;
 import com.example.CUSHProjectAPI.enums.Role;
 import com.example.CUSHProjectAPI.repository.*;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class MemberService implements UserDetailsService {
+public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberQueryRepository memberQueryRepository;
@@ -34,29 +26,17 @@ public class MemberService implements UserDetailsService {
     private final BoardCommentQueryRepository boardCommentQueryRepository;
 
 
-    @Transactional
+   /* @Transactional
     public Long singUp(MemberDto memberDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         memberDto.setRole(Role.ROLE_MEMBER);
 
         return memberRepository.save(memberDto.toEntity()).getId();
-    }
+    }*/
 
-    //로그인
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<MemberEntity> memberEntityWrapper = memberRepository.findByUsername(username);
-        MemberEntity memberEntity = memberEntityWrapper.get();
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(memberEntity.getRole().getValue()));
-        return new User(memberEntity.getUsername(), memberEntity.getPassword(), authorities);
-    }
-
-
-    public MemberDto memberInfo(String email) {
+    public MemberDto getMemberByUsername(String email) {
         MemberEntity memberEntity = memberQueryRepository.findByUsername(email);
-
         return memberEntity.toDto();
     }
 
@@ -69,10 +49,10 @@ public class MemberService implements UserDetailsService {
         memberQueryRepository.updateMemberInfo(memberDto);
     }
 
-    //패스워드 변경 전 기존 패스워드 검사
+    /*//패스워드 변경 전 기존 패스워드 검사
     public HashMap<String, Object> pwCheck(Authentication authentication, String original_Pw) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String db_Pw = memberInfo(authentication.getName()).getPassword();
+        String db_Pw = getMemberByUsername(authentication.getName()).getPassword();
         HashMap<String, Object> map = new HashMap<>();
         map.put("result", passwordEncoder.matches(original_Pw, db_Pw));
         return map;
@@ -83,7 +63,7 @@ public class MemberService implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         memberQueryRepository.updateMemberPassword(memberDto);
-    }
+    }*/
 
     //멤버 탈퇴
     public void deleteUser(Long id) {

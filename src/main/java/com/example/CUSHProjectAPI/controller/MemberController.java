@@ -3,7 +3,6 @@ package com.example.CUSHProjectAPI.controller;
 import com.example.CUSHProjectAPI.dto.MemberDto;
 import com.example.CUSHProjectAPI.service.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +53,7 @@ public class MemberController {
         return "account/register";
     }
 
-    //회원가입 처리
+   /* //회원가입 처리
     @PostMapping("/account/register")
     public String register(MemberDto memberDto) {
         memberService.singUp(memberDto);
@@ -64,11 +63,11 @@ public class MemberController {
     //내정보 수정 페이지
     @GetMapping("/account/myinfo")
     public String myInfo(Authentication authentication, Model model) {
-        MemberDto memberDto = memberService.memberInfo(authentication.getName());
+        MemberDto memberDto = memberService.getMemberByUsername(authentication.getName());
         model.addAttribute("member",memberDto);
 
         return "account/myinfo";
-    }
+    }*/
     //내정보 수정 페이지 처리
     @PostMapping("/account/myinfo")
     public String memberUpdate(MemberDto memberDto) {
@@ -82,14 +81,14 @@ public class MemberController {
         return "account/password";
     }
 
-    //패스워드 확인
+    /*//패스워드 확인
     @ResponseBody
     @GetMapping("/api/pwCheck")
     public HashMap<String, Object> pwCheck(@RequestParam(required = false) String original_Pw, Authentication authentication) {
         return memberService.pwCheck(authentication,original_Pw);
-    }
+    }*/
 
-    //패스워드 업데이트
+    /*//패스워드 업데이트
     @PostMapping("/account/password")
     public String passwordInfo(Authentication authentication,MemberDto memberDto) {
         memberDto.setUsername(authentication.getName());
@@ -100,10 +99,10 @@ public class MemberController {
     //회원탈퇴
     @GetMapping("/account/withdrawal")
     public String withdrawalMember(Authentication authentication, Model model) {
-        MemberDto memberDto = memberService.memberInfo(authentication.getName());
+        MemberDto memberDto = memberService.getMemberByUsername(authentication.getName());
         model.addAttribute("member", memberDto);
         return "account/withdrawal";
-    }
+    }*/
 
     //회원 탈퇴 실행
     @PostMapping("/account/withdrawal")
