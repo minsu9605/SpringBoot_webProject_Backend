@@ -21,67 +21,6 @@ public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
 
-    /*일반 게시판*//*
-    @GetMapping("/board/list")
-    public String boardList(Model model) {
-        model.addAttribute("categoryList", categoryService.getCategoryList());
-        return "board/boardlist";
-    }*/
-
-    /*일반 게시판 api*//*
-    @GetMapping("/api/board/list/table")
-    @ResponseBody
-    public HashMap<String, Object> getBoardList(@RequestParam(required = false) Long categoryId,
-                                                @RequestParam(required = false) int page,
-                                                @RequestParam(required = false) int perPage,
-                                                @RequestParam(required = false) String searchType,
-                                                @RequestParam(required = false, defaultValue = "") String keyword
-    ) {
-        HashMap<String, Object> objectMap = new HashMap<>();
-        HashMap<String, Object> dataMap = new HashMap<>();
-        HashMap<String, Object> paginationMap = new HashMap<>();
-
-
-        int total = boardService.getTotalSize(categoryId, searchType, keyword);
-        List<BoardDto> boardDtoList = boardService.getBoardList(categoryId, page, perPage, searchType, keyword);
-
-        objectMap.put("result", true);
-        objectMap.put("data", dataMap);
-        dataMap.put("contents", boardDtoList);
-        dataMap.put("pagination", paginationMap);
-        paginationMap.put("page", page);
-        paginationMap.put("totalCount", total);
-        return objectMap;
-    }*/
-
-    /*//글쓰기
-    @GetMapping("/board/write")
-    public String boardWrite(Model model) {
-        BoardDto boardForm = new BoardDto();
-        List<BoardCategoryDto> categoryList = categoryService.getCategoryList();
-        model.addAttribute("boardForm", boardForm);
-        model.addAttribute("categoryList", categoryList);
-        return "board/boardform";
-    }*/
-
-
-
-    @GetMapping("/board/content")
-    public String boardContent(Model model, @RequestParam(required = false) Long id) {
-        boardService.boardHitUpdate(id);
-        BoardDto boardForm = boardService.boardContent(id);
-
-        model.addAttribute("categoryList", categoryService.getCategoryList());
-        model.addAttribute("boardForm", boardForm);
-        return "board/boardcontent";
-    }
-
-    @ResponseBody
-    @GetMapping("/api/board/soldOut")
-    public String boardMap(@RequestParam(required = false) Long id) {
-        boardService.setSoldOut(id);
-        return "success";
-    }
 
     @GetMapping("/board/modify")
     public String boardModify(Model model, @RequestParam(required = false) Long id) {

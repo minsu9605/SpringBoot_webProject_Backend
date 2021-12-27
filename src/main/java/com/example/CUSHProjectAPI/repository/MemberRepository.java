@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Optional<MemberEntity> findByUsername(String username);
+    Optional<MemberEntity> findByNickname(String username);
     List<MemberEntity> findAll();
     Page<MemberEntity> findByUsernameContaining(String keyword, Pageable pageable);
 

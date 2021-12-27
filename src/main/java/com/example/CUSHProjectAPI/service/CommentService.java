@@ -93,18 +93,24 @@ public class CommentService {
         return reCommentCnt;
     }
 
-    public void modifyComment(Long cid, String comment) {
+    public HashMap<String, Object> modifyComment(Long cid, String comment) {
+        HashMap<String, Object> map = new HashMap<>();
         boardCommentQueryRepository.updateComment(cid, comment);
+        map.put("result","success");
+        return map;
     }
 
     /*대댓글 목록*/
-    public List<BoardCommentDto> getReCommentList(Long cid) {
+    public HashMap<String, Object> getReCommentList(Long cid) {
         List<BoardCommentEntity> boardCommentEntityList = boardCommentQueryRepository.findByCGroup(cid);
         List<BoardCommentDto> boardCommentDtoList = new ArrayList<>();
 
         for (int i = 0; i < boardCommentEntityList.size(); i++) {
             boardCommentDtoList.add(boardCommentEntityList.get(i).toDto());
         }
-        return boardCommentDtoList;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("list",boardCommentDtoList);
+        return map;
     }
 }

@@ -137,8 +137,9 @@ public class BoardService {
 
     /*게시글 등록 후 전송*/
     public BoardDto boardWrite(BoardDto boardDto, String username, HttpServletRequest request) {
+
         Optional<BoardCategoryEntity> boardCategoryEntity = boardCategoryRepository.findByName(boardDto.getCategoryName());
-        Optional<MemberEntity> memberEntity = memberRepository.findByUsername(username);
+        Optional<MemberEntity> memberEntity = memberRepository.findByNickname(username);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

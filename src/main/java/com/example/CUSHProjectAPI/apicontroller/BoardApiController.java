@@ -25,7 +25,6 @@ public class BoardApiController {
     /*일반 게시판*/
     @GetMapping("/api/board/list/getCategoryList")
     public List<BoardCategoryDto> getCategoryList() {
-        System.out.println(categoryService.getCategoryList());
         return categoryService.getCategoryList();
     }
 
@@ -49,11 +48,13 @@ public class BoardApiController {
         return objectMap;
     }
 
-    /*@PostMapping("/api/board/write")
-    public String boardWrite(@RequestParam(required = false) Long category, BoardDto boardDto, Authentication authentication, HttpServletRequest request) {
-        boardService.boardWrite(boardDto, authentication.getName(), request);
-        return "redirect:/board/list?category=" + category;
-    }*/
+    @PostMapping("/api/board/write")
+    public HashMap<String, Object> boardWrite(BoardDto boardDto, HttpServletRequest request) {
+        HashMap<String, Object> map = new HashMap<>();
+        BoardDto savedDto = boardService.boardWrite(boardDto, boardDto.getWriter(), request);
+        map.put("categoryId",savedDto.getCategoryId());
+        return map;
+    }
 
     @GetMapping("/api/board/getMyOldBoardCnt")
     public int getMyOldBoardAlertCnt(String username) {
@@ -63,5 +64,20 @@ public class BoardApiController {
     @GetMapping("/api/board/getMyOldBoardList")
     public List<BoardDto> oldBoardAlertList(String username, int startIndex, int searchStep) {
         return boardService.getMyOldBoardAlertList(username, startIndex, searchStep);
+    }
+
+    @GetMapping("/api/board/hitUpdate")
+    public void boardHitUpdate(Long id) {
+        boardService.boardHitUpdate(id);
+    }
+
+    @GetMapping("/api/board/getBoardContent")
+    public BoardDto getBoardContent(Long id) {
+        return boardService.boardContent(id);
+    }
+
+    @GetMapping("/api/board/setSoldOut")
+    public void setSoldOut(Long id) {
+        boardService.setSoldOut(id);
     }
 }
