@@ -21,23 +21,6 @@ public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
 
-
-    @GetMapping("/board/modify")
-    public String boardModify(Model model, @RequestParam(required = false) Long id) {
-        BoardDto boardForm = boardService.boardContent(id);
-
-        List<BoardCategoryDto> categoryList = categoryService.getCategoryList();
-        model.addAttribute("boardForm", boardForm);
-        model.addAttribute("categoryList", categoryList);
-        return "board/boardmodify";
-    }
-
-    /*@PostMapping("/board/modify")
-    public String boardModify(@RequestParam(required = false) Long id, BoardDto boardDto, Authentication authentication, HttpServletRequest request) {
-        boardService.boardModifySave(boardDto, authentication.getName(), request);
-        return "redirect:/board/content?id=" + id;
-    }*/
-
     @GetMapping("/board/map")
     public String showMap() {
         return "board/map";
@@ -48,17 +31,10 @@ public class BoardController {
         return "board/map_content";
     }
 
-
     @ResponseBody
     @PostMapping("/api/uploadSummernoteImageFile")
     public HashMap<String, Object> uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
         return boardService.boardImageUpload(multipartFile);
-    }
-
-    @ResponseBody
-    @DeleteMapping("/api/board/delete")
-    public void boardDelete(@RequestParam(required = false) Long id) {
-        boardService.boardDelete(id);
     }
 
     //내가 쓴 게시물(내정보)
@@ -96,17 +72,11 @@ public class BoardController {
         return objectMap;
     }*/
 
-
-
-
-
     @GetMapping("/api/board/setAlertReading")
     @ResponseBody
     public HashMap<String, Object> setAlertReading(@RequestParam(required = false) Long id) {
         HashMap<String, Object> map = new HashMap<>();
-
         map.put("result",boardService.setAlertReading(id));
-
         return map;
     }
 
@@ -132,8 +102,6 @@ public class BoardController {
         paginationMap.put("totalCount", total);
         return objectMap;
     }*/
-
-
 
     @ResponseBody
     @GetMapping("/api/admin/adminBoardChart")

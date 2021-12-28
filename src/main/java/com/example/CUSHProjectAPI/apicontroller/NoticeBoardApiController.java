@@ -6,11 +6,9 @@ import com.example.CUSHProjectAPI.service.CategoryService;
 import com.example.CUSHProjectAPI.service.NoticeBoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,5 +44,37 @@ public class NoticeBoardApiController {
         paginationMap.put("totalCount", total);
         return objectMap;
     }
+    @GetMapping("/api/notice/hitUpdate")
+    public void noticeHitUpdate(Long id) {
+        noticeBoardService.noticeBoardHitUpdate(id);
+    }
 
+    @GetMapping("/api/notice/getContent")
+    public NoticeBoardDto getNoticeBoardContent(Long id) {
+        return noticeBoardService.noticeBoardContent(id);
+    }
+
+    @PostMapping("/api/notice/write")
+    public HashMap<String, Object> noticeBoardWrite(NoticeBoardDto noticeBoardDto, HttpServletRequest request){
+        HashMap<String, Object> map = new HashMap<>();
+        noticeBoardService.noticeBoardWrite(noticeBoardDto,noticeBoardDto.getWriter(),request);
+        map.put("result","success");
+        return map;
+    }
+
+    @PostMapping("/api/notice/modify")
+    public HashMap<String, Object> noticeBoardModify(NoticeBoardDto noticeBoardDto){
+        HashMap<String, Object> map = new HashMap<>();
+        noticeBoardService.boardModifySave(noticeBoardDto, noticeBoardDto.getWriter());
+        map.put("noticeId",noticeBoardDto.getId());
+        return map;
+    }
+
+    @DeleteMapping("/api/notice/delete")
+    public HashMap<String, Object> boardDelete(@RequestParam(required = false) Long id) {
+        HashMap<String, Object> map = new HashMap<>();
+        noticeBoardService.noticeBoardDelete(id);
+        map.put("result", "success");
+        return map;
+    }
 }

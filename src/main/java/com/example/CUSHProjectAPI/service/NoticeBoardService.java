@@ -42,7 +42,7 @@ public class NoticeBoardService {
 
     /*글 작성 후 전송*/
     public NoticeBoardDto noticeBoardWrite(NoticeBoardDto noticeBoardDto, String username, HttpServletRequest request) {
-        Optional<MemberEntity> memberEntity = memberRepository.findByUsername(username);
+        Optional<MemberEntity> memberEntity = memberRepository.findByNickname(username);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -64,7 +64,7 @@ public class NoticeBoardService {
 
     /*글 수정 후 전송*/
     public NoticeBoardDto boardModifySave(NoticeBoardDto noticeBoardDto, String username) {
-        Optional<MemberEntity> memberEntity = memberRepository.findByUsername(username);
+        Optional<MemberEntity> memberEntity = memberRepository.findByNickname(username);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         noticeBoardDto.setUpdatedDate(LocalDateTime.now().format(formatter));

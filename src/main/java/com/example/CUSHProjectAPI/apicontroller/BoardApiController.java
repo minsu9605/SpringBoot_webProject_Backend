@@ -56,6 +56,14 @@ public class BoardApiController {
         return map;
     }
 
+    @PostMapping("/api/board/modify")
+    public HashMap<String, Object> boardModify(BoardDto boardDto, HttpServletRequest request) {
+        HashMap<String, Object> map = new HashMap<>();
+        boardService.boardModifySave(boardDto, boardDto.getWriter(), request);
+        map.put("boardId",boardDto.getId());
+        return map;
+    }
+
     @GetMapping("/api/board/getMyOldBoardCnt")
     public int getMyOldBoardAlertCnt(String username) {
         return boardService.getMyOldBoardAlertListCnt(username);
@@ -79,5 +87,13 @@ public class BoardApiController {
     @GetMapping("/api/board/setSoldOut")
     public void setSoldOut(Long id) {
         boardService.setSoldOut(id);
+    }
+
+    @DeleteMapping("/api/board/delete")
+    public HashMap<String, Object> boardDelete(@RequestParam(required = false) Long id) {
+        HashMap<String, Object> map = new HashMap<>();
+        boardService.boardDelete(id);
+        map.put("result", "success");
+        return map;
     }
 }

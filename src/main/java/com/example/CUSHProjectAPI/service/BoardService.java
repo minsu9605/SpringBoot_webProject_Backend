@@ -164,7 +164,7 @@ public class BoardService {
     /*보드 수정 후 전송*/
     public BoardDto boardModifySave(BoardDto boardDto, String username, HttpServletRequest request) {
         Optional<BoardCategoryEntity> boardCategoryEntity = boardCategoryRepository.findByName(boardDto.getCategoryName());
-        Optional<MemberEntity> memberEntity = memberRepository.findByUsername(username);
+        Optional<MemberEntity> memberEntity = memberRepository.findByNickname(username);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         boardDto.setUpdatedDate(LocalDateTime.now().format(formatter));
@@ -177,7 +177,6 @@ public class BoardService {
         boardDto.setWriteIp(ip);
 
         BoardEntity boardEntity = boardDto.toEntity();
-
         boardEntity.setCategory(boardCategoryEntity.get());
         boardEntity.setWriter(memberEntity.get());
 
